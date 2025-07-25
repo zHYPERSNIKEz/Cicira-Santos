@@ -1,0 +1,20 @@
+@import url(index.css);
+
+
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+/*INDEX VAR*/
+
+:root{
+    --bg-color:#ffffff;
+    --font-color:#0000;
+
+
+    --focus-color:#ffa500;
+}
