@@ -20,7 +20,7 @@ body {
         }
   }
   input {
-    font-size: 25px;
+    font-size: 1.5625rem;
     width: 100%;
     padding: .625rem;
     margin: .625rem 0;
@@ -35,7 +35,7 @@ body {
   }
   button {
     width: 100%;
-    font-size: 25px;
+    font-size: 1.5625rem;
     padding: .625rem;
     background-color: #4CAF50;
     color: white;
