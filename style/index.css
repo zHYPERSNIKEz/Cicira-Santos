@@ -1,0 +1,45 @@
+body {
+    font-family: Arial, sans-serif;
+    font-size: 1.5625rem ;
+    background-color: #f2f2f2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  .login-container {
+    display: flex;
+    flex-direction: column;
+    background-color:var(--bg-color);
+    padding: 1.875rem;
+    border-radius: .5rem;
+    box-shadow: 0rem 0rem .625rem rgba(0,0,0,0.1);
+
+        & h2{
+            text-align: center;
+        }
+  }
+  input {
+    font-size: 25px;
+    width: 100%;
+    padding: .625rem;
+    margin: .625rem 0;
+    border: .0625rem solid #ccc;
+    border-radius: .25rem;
+
+    &:focus{
+        border-color: var(--focus-color);
+        outline: none; /* remove o contorno azul padrão */
+        box-shadow: 0 0 5px var(--focus-color);      
+    }
+  }
+  button {
+    width: 100%;
+    font-size: 25px;
+    padding: .625rem;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: .25rem;
+    cursor: pointer;     
+  }
