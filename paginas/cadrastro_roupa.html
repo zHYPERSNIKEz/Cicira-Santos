@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cadastro de Roupa</title>
+  <style>
+    body {
+      background-color: #f8f8f8;
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      position: relative; /* necessário para posicionar o botão */
+    }
+
+    .btn-voltar {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      background-color: #ddd;
+      color: #333;
+      padding: 8px 16px;
+      border: none;
+      border-radius: 4px;
+      font-size: 14px;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .btn-voltar:hover {
+      background-color: #ccc;
+    }
+
+    .cadastro-container {
+      background-color: white;
+      padding: 30px;
+      margin: .5rem;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 400px;
+    }
+
+    .cadastro-container form {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+
+    input:focus, textarea:focus {
+      border-color: orange;
+      outline: none;
+      box-shadow: 0 0 5px orange;
+    }
+
+    textarea {
+      resize: none;
+      height: 100px;
+    }
+
+    input[type=number]::-webkit-inner-spin-button, 
+    input[type=number]::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    input[type=number] {
+      -moz-appearance: textfield;
+    }
+
+    button[type=submit] {
+      width: 107%;
+      padding: 10px;
+      background-color: #ff6600;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    button[type=submit]:hover {
+      background-color: #e65c00;
+    }
+  </style>
+</head>
+<body>
+  <!-- Botão de voltar -->
+  <button onclick="history.back()" class="btn-voltar">← Voltar</button>
+
+  <div class="cadastro-container">
+    <h2>Cadastrar Roupa</h2>
+    <form method="POST" action="/processar-cadastro">
+      <input type="text" name="nome_roupa" placeholder="Nome da Roupa" required>
+      <input type="number" name="numero_roupa" placeholder="Número (obrigatório)" required>
+      <textarea name="descricao_roupa" placeholder="Descrição da roupa" required></textarea>
+      <button type="submit">Cadastrar</button>
+    </form>
+  </div>
+</body>
+</html>
