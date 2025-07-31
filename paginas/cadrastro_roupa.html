@@ -17,16 +17,23 @@
 
     .btn-voltar {
       position: absolute;
-      top: 20px;
-      left: 20px;
+      top: 4.375rem;
+      left: 1.25rem;
       background-color: #ddd;
       color: #333;
-      padding: 8px 16px;
+      padding: .5rem 1rem;
       border: none;
-      border-radius: 4px;
-      font-size: 14px;
+      border-radius: .25rem;
+      font-size: .875rem;
       cursor: pointer;
       text-decoration: none;
+
+        & a {
+          all: unset; /* Remove todos os estilos padrão */
+          text-decoration: none; /* Remove sublinhado */
+          color: inherit;         /* Herda a cor do botão */
+          font: inherit;          /* Herda a fonte do botão */
+        }
     }
 
     .btn-voltar:hover {
@@ -35,12 +42,12 @@
 
     .cadastro-container {
       background-color: white;
-      padding: 30px;
-      margin: .5rem;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      padding: 1.875rem;
+      margin: 8px;
+      border-radius: .5rem;
+      box-shadow: 0 0 .625rem rgba(0,0,0,0.1);
       width: 100%;
-      max-width: 400px;
+      max-width: 25rem;
     }
 
     .cadastro-container form {
@@ -52,27 +59,27 @@
 
     h2 {
       text-align: center;
-      margin-bottom: 20px;
+      margin-bottom: 1.25rem;
     }
 
     input, textarea {
       width: 100%;
-      padding: 10px;
-      margin: 10px 0;
-      border: 1px solid #ccc;
-      border-radius: 4px;
+      padding: .625rem;
+      margin: .625rem 0;
+      border: .0625rem solid #ccc;
+      border-radius: .25rem;
       transition: border-color 0.3s, box-shadow 0.3s;
     }
 
     input:focus, textarea:focus {
       border-color: orange;
       outline: none;
-      box-shadow: 0 0 5px orange;
+      box-shadow: 0 0 .3125rem orange;
     }
 
     textarea {
       resize: none;
-      height: 100px;
+      height: 6.25rem;
     }
 
     input[type=number]::-webkit-inner-spin-button, 
@@ -87,11 +94,11 @@
 
     button[type=submit] {
       width: 107%;
-      padding: 10px;
+      padding: .625rem;
       background-color: #ff6600;
       color: white;
       border: none;
-      border-radius: 4px;
+      border-radius: .25rem;
       cursor: pointer;
     }
 
@@ -102,7 +109,7 @@
 </head>
 <body>
   <!-- Botão de voltar -->
-  <button onclick="history.back()" class="btn-voltar">← Voltar</button>
+  <button class="btn-voltar"><a href="tela_inicial.html">← Voltar</a></button>
 
   <div class="cadastro-container">
     <h2>Cadastrar Roupa</h2>
