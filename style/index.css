@@ -43,3 +43,11 @@ body {
     border-radius: .25rem;
     cursor: pointer;     
   }
+
+.error-message {
+  color: red;
+  font-size: 0.875rem;
+  margin-bottom: 10px;
+  text-align: center;
+  height: 1rem; /* Reserve space to avoid layout shift */
+}
