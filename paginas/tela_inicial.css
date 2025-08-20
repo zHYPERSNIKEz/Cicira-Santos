@@ -1,10 +1,22 @@
 header{
     display: flex;
-    justify-content: end;
     align-items: center;
+    margin: 2rem;
+    
+    .logo{
+        justify-content: center;
+        gap: 10px ;
+        & img{
+            
+            height: 6rem;
+            object-fit: cover;
+        }
+
+    }
     .usuario {
         position: relative;
         display: inline-block;
+        justify-content: end;
     }
     
     .avatar {
@@ -51,6 +63,16 @@ header{
 }
 
 main{
-    display: flex;
+    display: grid;
+    
     justify-content: center;
+    align-items: center;
+    gap: 80px;
+}
+
+footer {
+    text-align: center;
+    padding: 2rem 0;
+    margin-top: 2rem;
+    border-top: 1px solid #ccc;
 }
