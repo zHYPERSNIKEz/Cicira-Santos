@@ -35,8 +35,9 @@ formulario.addEventListener('submit', (e) => {
   const user = mockUsers.find(u => u.email === email && u.senha === senha);
 
   if (user) {
-    // Se o usuário for encontrado, redireciona para a tela inicial
-    // alert('Login bem-sucedido!'); // Opcional: pode manter se quiser
+    // Se o usuário for encontrado, armazena o email no sessionStorage
+    sessionStorage.setItem('loggedInUser', user.email);
+    // Redireciona para a tela inicial
     window.location.href = '../paginas/tela_inicial.html';
   } else {
     // Se o usuário não for encontrado, exibe a mensagem de erro
