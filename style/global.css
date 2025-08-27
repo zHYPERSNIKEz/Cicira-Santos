@@ -1,112 +1,91 @@
+
 @import url(index.css);
 
-
-
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-
-/*INDEX VAR*/
-
-:root{
-    --bg-color:#ffffff;
-    --font-color:#0000;
-
-
-    --focus-color:#ffa500;
+/* VARS */
+:root {
+  --bg-color: #ffffff;
+  --font-color: #0000;
+  --focus-color: #ffa500;
 }
 
-/*INDEX VAR*/
-
-
-/*INDEX BODY*/
-body{
-    background-color: var(--bg-color);
-    font-family: sans-serif;
+/* BODY */
+body {
+  background-color: var(--bg-color);
+  font-family: sans-serif;
 }
 
-/*INDEX BODY*/
-
-
-/*INDEX LOGIN*/
-.login-container{
-    width: 300px;
-    margin: 100px auto;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+/* LOGIN */
+.login-container {
+  width: 300px;
+  margin: 100px auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
 }
 
-
-h2{
-    text-align: center;
-    margin-bottom: 20px;
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
 }
 
+input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
 
-input{
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 10px;
-    border: 1px solid #ccc;
-    border-radius: 3px;
-}
-
-
-input:focus{
+  &:focus {
     outline-color: var(--focus-color);
+  }
 }
 
+button {
+  width: 100%;
+  padding: 10px;
+  background-color: #4caf50;
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
 
-button{
-    width: 100%;
-    padding: 10px;
-    background-color: #4caf50;
-    color: #fff;
-    border: none;
-    border-radius: 3px;
-    cursor: pointer;
-}
-
-
-button:hover{
+  &:hover {
     background-color: #45a049;
+  }
 }
 
-/*INDEX LOGIN*/
-
-
-/*INDEX ERROR*/
-.error-message{
-    color: #ff0000;
-    margin-bottom: 10px;
-    text-align: center;
+/* ERROR */
+.error-message {
+  color: #ff0000;
+  margin-bottom: 10px;
+  text-align: center;
 }
-
-/*INDEX ERROR*/
 
 /* SUCCESS MESSAGE */
 .success-message {
-    color: #4caf50;
-    margin-bottom: 10px;
-    text-align: center;
+  color: #4caf50;
+  margin-bottom: 10px;
+  text-align: center;
 }
 
 /* BUTTON LINK */
 .button-link {
-    display: inline-block;
-    padding: 10px 20px;
-    background-color: #4caf50;
-    color: #fff;
-    text-decoration: none;
-    border-radius: 3px;
-    cursor: pointer;
-    text-align: center;
-}
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #4caf50;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 3px;
+  cursor: pointer;
+  text-align: center;
 
-.button-link:hover {
+  &:hover {
     background-color: #45a049;
+  }
 }
