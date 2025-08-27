@@ -1,53 +1,90 @@
-body {
-    font-family: Arial, sans-serif;
-    font-size: 1.5625rem ;
-    background-color: var(--bg-color);
+@import url(global.css);
+
+main {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-  }
-  .login-container {
+    margin: .63rem;
+    height: 100dvh; /* Faz o main ocupar a tela inteira */
+}
+
+.login-container {
     display: flex;
     flex-direction: column;
-    background-color:var(--bg-color);
     padding: 1.875rem;
     border-radius: .5rem;
+    border: 1px solid #ccc;
     box-shadow: 0rem 0rem .625rem rgba(0,0,0,0.1);
+    width: 23.125rem;
 
-        & h2{
-            text-align: center;
-        }
-  }
-  input {
-    font-size: 1.5625rem;
+    h2 {
+      font-size: 2.25rem;
+        text-align: center;
+        margin-bottom: 1.25rem;
+    }
+}
+
+input {
+    font-size: 1.375rem;
     width: 100%;
     padding: .625rem;
     margin: .625rem 0;
     border: .0625rem solid #ccc;
     border-radius: .25rem;
 
-    &:focus{
+    &:focus {
         border-color: var(--focus-color);
-        outline: none; /* remove o contorno azul padrão */
-        box-shadow: 0 0 5px var(--focus-color);      
+        outline: none;
+        box-shadow: 0 0 5px var(--focus-color);
     }
-  }
-  button {
+}
+
+button {
     width: 100%;
     font-size: 1.5625rem;
     padding: .625rem;
     background-color: #4CAF50;
-    color: white;
+    color: #fff;
     border: none;
     border-radius: .25rem;
-    cursor: pointer;     
-  }
+    cursor: pointer;
+
+    &:hover {
+        background-color: #45a049;
+    }
+}
 
 .error-message {
-  color: red;
-  font-size: 0.875rem;
-  margin-bottom: 10px;
-  text-align: center;
-  height: 1rem; /* Reserve space to avoid layout shift */
+    color: #ff0000;
+    font-size: .875rem;
+    margin-bottom: .625rem;
+    text-align: center;
+    height: 1rem;
+}
+
+
+
+/*RESPONSIVIDADE*/
+
+@media (max-width: 50rem) {
+    .login-container {
+        width: 100%;
+        height: 450px;
+
+         h2{
+            font-size: 50px;
+
+        }
+
+        input {
+            font-size: 40px;
+        }
+    }
+
+
+    .error-message{
+        font-size: 30px;
+        margin: 5px 0px 25px 0px;
+        
+    }
 }

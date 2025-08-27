@@ -1,0 +1,92 @@
+main{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: .63rem;
+    height: 100dvh; /* Faz o main ocupar a tela inteira */
+
+    .login-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 1.875rem;
+        border-radius: .5rem;
+        border: 1px solid #ccc;
+        box-shadow: 0rem 0rem .625rem rgba(0,0,0,0.1);
+        width: 23.125rem;
+    
+        h2 {
+          font-size: 2.25rem;
+            text-align: center;
+            margin-bottom: 1.25rem;
+        }
+
+        a{
+            width: 94%;
+            text-align: center;
+            font-size: 1.375rem;
+            margin: .625rem;
+            border-radius: .25rem;
+            border: .0625rem solid #ccc;
+            text-decoration: none;
+            cursor: pointer;
+            color: #ffffff;
+            background-color: red; 
+            padding: .68rem;
+        }
+    }
+    
+    input {
+        font-size: 1.375rem;
+        width: 100%;
+        padding: .625rem;
+        margin: .625rem 0;
+        border: .0625rem solid #ccc;
+        border-radius: .25rem;
+    
+        &:focus {
+            border-color: var(--focus-color);
+            outline: none;
+            box-shadow: 0 0 5px var(--focus-color);
+        }
+    }
+    
+    button {
+        width: 100%;
+        font-size: 1.5625rem;
+        padding: .625rem;
+        background-color: #4CAF50;
+        color: #fff;
+        border: none;
+        border-radius: .25rem;
+        cursor: pointer;
+    
+        &:hover {
+            background-color: #45a049;
+        }
+    }
+}
+
+
+.success-message {
+    color: #4caf50;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.button-link {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #4caf50;
+    color: #fff;
+    text-decoration: none;
+    border-radius: .1875rem;
+    cursor: pointer;
+    text-align: center;
+    margin-top: .625rem;
+
+    &:hover {
+        background-color: #45a049;
+    }
+}
