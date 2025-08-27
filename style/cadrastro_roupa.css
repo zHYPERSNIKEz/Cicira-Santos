@@ -1,0 +1,101 @@
+body {
+  background-color: #f8f8f8;
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  position: relative; /* necessário para posicionar o botão */
+}
+
+.btn-voltar {
+  position: absolute;
+  top: 4.375rem;
+  left: 1.25rem;
+  background-color: #ddd;
+  color: #333;
+  padding: .5rem 1rem;
+  border: none;
+  border-radius: .25rem;
+  font-size: .875rem;
+  cursor: pointer;
+  text-decoration: none;
+
+  a {
+    all: unset; /* Remove todos os estilos padrão */
+    text-decoration: none; /* Remove sublinhado */
+    color: inherit; /* Herda a cor do botão */
+    font: inherit; /* Herda a fonte do botão */
+  }
+
+  &:hover {
+    background-color: #ccc;
+  }
+}
+
+.cadastro-container {
+  background-color: white;
+  padding: 1.875rem;
+  margin: 8px;
+  border-radius: .5rem;
+  box-shadow: 0 0 .625rem rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 25rem;
+
+  form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 1.25rem;
+}
+
+input,
+textarea {
+  width: 100%;
+  padding: .625rem;
+  margin: .625rem 0;
+  border: .0625rem solid #ccc;
+  border-radius: .25rem;
+  transition: border-color 0.3s, box-shadow 0.3s;
+
+  &:focus {
+    border-color: orange;
+    outline: none;
+    box-shadow: 0 0 .3125rem orange;
+  }
+}
+
+textarea {
+  resize: none;
+  height: 6.25rem;
+}
+
+input[type=number] {
+  -moz-appearance: textfield;
+
+  &::-webkit-inner-spin-button,
+  &::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+}
+
+button[type=submit] {
+  width: 107%;
+  padding: .625rem;
+  background-color: #ff6600;
+  color: white;
+  border: none;
+  border-radius: .25rem;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #e65c00;
+  }
+}

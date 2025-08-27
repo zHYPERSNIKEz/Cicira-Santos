@@ -1,20 +1,91 @@
+
 @import url(index.css);
 
-
-
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
+/* VARS */
+:root {
+  --bg-color: #ffffff;
+  --font-color: #0000;
+  --focus-color: #ffa500;
+}
 
-/*INDEX VAR*/
+/* BODY */
+body {
+  background-color: var(--bg-color);
+  font-family: sans-serif;
+}
 
-:root{
-    --bg-color:#ffffff;
-    --font-color:#0000;
+/* LOGIN */
+.login-container {
+  width: 300px;
+  margin: 100px auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
 
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
 
-    --focus-color:#ffa500;
+input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+
+  &:focus {
+    outline-color: var(--focus-color);
+  }
+}
+
+button {
+  width: 100%;
+  padding: 10px;
+  background-color: #4caf50;
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #45a049;
+  }
+}
+
+/* ERROR */
+.error-message {
+  color: #ff0000;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+/* SUCCESS MESSAGE */
+.success-message {
+  color: #4caf50;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+/* BUTTON LINK */
+.button-link {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #4caf50;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 3px;
+  cursor: pointer;
+  text-align: center;
+
+  &:hover {
+    background-color: #45a049;
+  }
 }
