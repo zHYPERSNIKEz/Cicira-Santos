@@ -7,7 +7,8 @@ const errorMessage = document.getElementById('error-message');
 const mockUsers = [
   { email: 'teste@email.com', senha: '123' },
   { email: 'cicira@santos.com', senha: 'senhaforte' },
-  { email: 'admin@admin.com', senha: 'admin' }
+  { email: 'admin@admin.com', senha: 'admin' },
+  {email: 'robsoncarolino96@gmail.com', senha: '123456'}
 ];
 
 // Limpa a mensagem de erro quando o usuário digita
