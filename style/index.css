@@ -65,7 +65,7 @@ button {
 
 
 /*RESPONSIVIDADE*/
-
+        /*mobile*/
 @media (max-width: 50rem) {
     .login-container {
         width: 100%;
