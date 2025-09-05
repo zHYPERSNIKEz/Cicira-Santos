@@ -2,23 +2,31 @@
 
 .container {
   width: 80%;
-  max-width: 800px;
-  margin: 20px auto;
-  padding: 20px;
+  max-width: 50rem;
+  margin: 1.25rem auto;
+  padding: 1.25rem;
   background-color: #f9f9f9;
-  border: 1px solid #ddd;
-  border-radius: 8px;
+  border: .0625rem solid #ddd;
+  border-radius: .5rem;
+
+  .cpf-invalido {
+    border-color: red !important;
+  }
+  .cpf-valido {
+      border-color: green !important;
+  }
+  
 }
 
 h2 {
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 1.25rem;
 }
 
 .form-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 15px;
+  gap: .9375rem;
 }
 
 .form-group {
@@ -30,37 +38,40 @@ h2 {
   }
 
   label {
-    margin-bottom: 5px;
+    margin-bottom: .3125rem;
     font-weight: bold;
   }
 
   input,
   textarea {
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+    padding: .625rem;
+    border: .0625rem solid #ccc;
+    border-radius: .25rem;
     font-size: 1rem;
   }
 
   textarea {
     resize: vertical;
+    resize: none;
   }
 }
+
+
 
 .form-actions {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 20px;
+  margin-top: 1.25rem;
 
   button,
   .back-button {
-    padding: 10px 20px;
+    padding: .625rem 1.25rem;
     border: none;
-    border-radius: 4px;
+    border-radius: .25rem;
     cursor: pointer;
     text-decoration: none;
-    font-size: 1rem;
+    font-size: 16px;
   }
 
   button {
@@ -80,4 +91,26 @@ h2 {
       background-color: #da190b;
     }
   }
+}
+
+
+
+@media (max-width: 50rem) {
+  .container {
+    width: 80%;
+    max-width: 50rem;
+    margin: 1.25rem auto;
+    padding: 1.25rem;
+    background-color: #f9f9f9;
+    border: .0625rem solid #ddd;
+    border-radius: .5rem;
+  }
+
+  .form-grid {
+    display: flex;
+    flex-direction: column;
+    gap: .9375rem;
+  
+  }
+
 }
