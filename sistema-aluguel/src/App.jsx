@@ -1,13 +1,15 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Login from './pages/Login'
+import Dashboard from './pages/Dashboard'
+import Estoque from './pages/Estoque' 
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Login />} />
-        {/* Futuramente colocaremos a rota do dashboard aqui */}
-        <Route path="/dashboard" element={<div className="p-10">Bem-vindo ao Dashboard! (Em construção)</div>} />
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/estoque" element={<Estoque />} /> {}
       </Routes>
     </BrowserRouter>
   )
