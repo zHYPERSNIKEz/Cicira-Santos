@@ -6,22 +6,26 @@ export default function Dashboard() {
   const [menuAberto, setMenuAberto] = useState(false)
 
   return (
-    // REMOVI O 'flex' DAQUI
     <div className="bg-gray-50 min-h-screen">
       
       <Sidebar isOpen={menuAberto} onClose={() => setMenuAberto(false)} />
       
-      {/* ADICIONEI 'md:ml-64': Empurra o conteúdo 256px pra direita no PC */}
       <main className="p-4 md:p-8 md:ml-64 transition-all">
         
-        {/* Botão Menu Mobile */}
-        <div className="md:hidden flex items-center justify-between mb-6">
-            <button onClick={() => setMenuAberto(true)} className="text-gray-700 p-2 bg-white rounded-lg shadow-sm">
+        {/* --- CORREÇÃO APLICADA AQUI --- */}
+        {/* Adicionado: sticky, top-0, z-30, bg-gray-50/90 (para transparência bonita) */}
+        <div className="md:hidden flex items-center justify-between mb-6 sticky top-0 z-30 bg-gray-50/90 backdrop-blur-sm py-2">
+            <button 
+                type="button" // Essencial para o Safari não confundir
+                onClick={() => setMenuAberto(true)} 
+                className="text-gray-700 p-2 bg-white rounded-lg shadow-sm hover:bg-gray-100 transition-colors"
+            >
                 <Menu size={24} />
             </button>
             <span className="font-bold text-gray-700">Aluguel Sys</span>
-            <div className="w-8"></div>
+            <div className="w-8"></div> {/* Espaço vazio para alinhar */}
         </div>
+        {/* ------------------------------- */}
 
         <header className="mb-8">
           <h2 className="text-2xl font-bold text-gray-800">Visão Geral</h2>
