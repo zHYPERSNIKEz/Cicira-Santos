@@ -1,1 +1,15 @@
 @import "tailwindcss";
+
+/* Remove as setinhas padrão (spin buttons) de todos os inputs numéricos */
+
+/* Para Chrome, Safari, Edge, Opera */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Para Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}

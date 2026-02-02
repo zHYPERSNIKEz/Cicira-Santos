@@ -20,7 +20,7 @@ export default function Sidebar({ isOpen, onClose }) {
 
   return (
     <>
-      {/* Overlay Escuro (Fundo preto no mobile) */}
+      {/* Overlay Escuro (Mobile) */}
       {isOpen && (
         <div 
           className="fixed inset-0 bg-black/50 z-40 md:hidden" 
@@ -28,16 +28,17 @@ export default function Sidebar({ isOpen, onClose }) {
         />
       )}
 
-      {/* SIDEBAR - Agora é sempre FIXED */}
+      {/* SIDEBAR */}
       <aside 
         className={`
           fixed top-0 left-0 z-50 h-screen w-64 bg-slate-900 text-white 
-          transition-transform duration-300 ease-in-out
+          transition-transform duration-300 ease-in-out flex flex-col
           ${isOpen ? 'translate-x-0' : '-translate-x-full'} 
           md:translate-x-0 
         `}
       >
-        <div className="p-6 border-b border-slate-800 flex justify-between items-center">
+        {/* Logo */}
+        <div className="p-6 border-b border-slate-800 flex justify-between items-center shrink-0">
           <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-blue-600 bg-clip-text text-transparent">
             Aluguel Sys
           </h1>
@@ -46,6 +47,7 @@ export default function Sidebar({ isOpen, onClose }) {
           </button>
         </div>
 
+        {/* Links de Navegação */}
         <nav className="flex-1 p-4 space-y-2 overflow-y-auto">
           {menuItems.map((item) => {
             const isActive = location.pathname === item.path
@@ -67,14 +69,20 @@ export default function Sidebar({ isOpen, onClose }) {
           })}
         </nav>
 
-        <div className="p-4 border-t border-slate-800">
+        {/* Rodapé: Sair + Versão */}
+        <div className="p-4 border-t border-slate-800 shrink-0">
           <button
             onClick={handleLogout}
-            className="flex items-center space-x-3 p-3 text-red-400 hover:bg-red-900/20 w-full rounded-lg transition-colors"
+            className="flex items-center space-x-3 p-3 text-red-400 hover:bg-red-900/20 w-full rounded-lg transition-colors mb-4"
           >
             <LogOut size={20} />
             <span>Sair</span>
           </button>
+
+          {/* Versão do Sistema */}
+          <div className="text-center">
+            <p className="text-xs text-slate-600 font-mono">v1.0.0</p>
+          </div>
         </div>
       </aside>
     </>
