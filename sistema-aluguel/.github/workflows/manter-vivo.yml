@@ -1,0 +1,19 @@
+name: Manter Supabase Vivo
+
+on:
+  schedule:
+    # Roda as 08:00 (UTC) toda segunda e quinta
+    - cron: '0 8 * * 1,4'
+  workflow_dispatch: # Permite rodar manualmente para testar
+
+jobs:
+  wake-up:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Pingar Banco de Dados Supabase
+        # Faz uma requisição GET para a tabela de produtos (apenas 1 item)
+        # O curl simula uma chamada de API, exatamente como seu site faria
+        run: |
+          curl -X GET '${{ secrets.SUPABASE_URL }}/rest/v1/produtos?select=id&limit=1' \
+          -H "apikey: ${{ secrets.SUPABASE_KEY }}" \
+          -H "Authorization: Bearer ${{ secrets.SUPABASE_KEY }}"

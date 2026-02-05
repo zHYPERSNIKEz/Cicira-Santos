@@ -1,26 +1,18 @@
 import { useState, useEffect } from 'react'
-import Sidebar from '../components/Sidebar'
-import { supabase } from '../supabase'
-import { Plus, Search, Trash2, Calendar, CheckCircle, Edit, Menu, FileText, PackageCheck, CornerDownLeft } from 'lucide-react'
-import ModalNovoAluguel from '../components/ModalNovoAluguel'
-import ModalEntrega from '../components/ModalEntrega'
-import ModalDevolucao from '../components/ModalDevolucao'
+import { useNavigate } from 'react-router-dom'
+import Sidebar from '../../components/Sidebar'
+import { supabase } from '../../supabase'
+import { Plus, Search, Trash2, Calendar, Edit, Menu, PackageCheck, CornerDownLeft, FileText } from 'lucide-react'
 
-export default function Alugueis() {
+export default function Lista() {
   const [alugueis, setAlugueis] = useState([])
   const [loading, setLoading] = useState(true)
   const [termoBusca, setTermoBusca] = useState('')
   const [menuAberto, setMenuAberto] = useState(false)
-
-  const [modalNovoAberto, setModalNovoAberto] = useState(false)
-  const [aluguelParaEditar, setAluguelParaEditar] = useState(null)
-  
-  const [aluguelParaEntregar, setAluguelParaEntregar] = useState(null)
-  const [aluguelParaDevolver, setAluguelParaDevolver] = useState(null)
+  const navigate = useNavigate()
 
   async function buscarAlugueis() {
     setLoading(true)
-    // CORREÇÃO AQUI: Mudamos de clientes (nome, telefone) para clientes (*)
     const { data, error } = await supabase
       .from('alugueis')
       .select(`*, clientes (*)`) 
@@ -33,20 +25,13 @@ export default function Alugueis() {
 
   useEffect(() => { buscarAlugueis() }, [])
 
-  async function confirmarEntrega(id) {
-      if(!confirm("Confirmar que o cliente RETIROU a roupa?")) return
-      await supabase.from('alugueis').update({ status: 'ativo' }).eq('id', id)
-      buscarAlugueis()
-  }
-
   async function excluirAluguel(id) {
-    if (!confirm('ATENÇÃO: Isso excluirá o aluguel permanentemente.\nDeseja continuar?')) return
+    if (!confirm(`ATENÇÃO: Isso excluirá o aluguel permanentemente.
+Deseja continuar?`)) return
     const { error } = await supabase.from('alugueis').delete().eq('id', id)
     if (error) alert('Erro ao excluir: ' + error.message)
     else buscarAlugueis()
   }
-
-  function abrirEdicao(aluguel) { setAluguelParaEditar(aluguel); setModalNovoAberto(true); }
 
   const formatarData = (data) => new Date(data).toLocaleDateString('pt-BR')
   const formatarDinheiro = (valor) => new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(valor)
@@ -78,7 +63,7 @@ export default function Alugueis() {
 
         <header className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
           <div><h2 className="text-2xl font-bold text-gray-800">Aluguéis</h2><p className="text-gray-500">Controle de saídas e devoluções</p></div>
-          <button onClick={() => { setAluguelParaEditar(null); setModalNovoAberto(true); }} className="w-full md:w-auto bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center justify-center gap-2 hover:bg-blue-700 shadow-lg">
+          <button onClick={() => navigate('/alugueis/novo')} className="w-full md:w-auto bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center justify-center gap-2 hover:bg-blue-700 shadow-lg">
             <Plus size={20} /> Novo Aluguel
           </button>
         </header>
@@ -109,16 +94,16 @@ export default function Alugueis() {
                             </div>
                             
                             <div className="flex gap-2 mt-2">
-                                <button onClick={() => abrirEdicao(item)} className="p-2 bg-gray-50 text-blue-600 rounded-lg hover:bg-blue-50 border border-gray-200" title="Editar"><Edit size={18}/></button>
+                                <button onClick={() => navigate(`/alugueis/editar/${item.id}`)} className="p-2 bg-gray-50 text-blue-600 rounded-lg hover:bg-blue-50 border border-gray-200" title="Editar"><Edit size={18}/></button>
                                 <button onClick={() => excluirAluguel(item.id)} className="p-2 bg-gray-50 text-gray-400 rounded-lg hover:bg-red-50 hover:text-red-500 border border-gray-200" title="Excluir"><Trash2 size={18}/></button>
 
                                 {item.status === 'pendente' && (
-                                    <button onClick={() => setAluguelParaEntregar(item)} className="px-4 py-2 bg-blue-100 text-blue-700 rounded-lg hover:bg-blue-200 font-bold flex items-center gap-2" title="Cobrar Restante e Entregar">
+                                    <button onClick={() => navigate(`/alugueis/entregar/${item.id}`)} className="px-4 py-2 bg-blue-100 text-blue-700 rounded-lg hover:bg-blue-200 font-bold flex items-center gap-2" title="Cobrar Restante e Entregar">
                                         <PackageCheck size={18}/> Entregar
                                     </button>
                                 )}
                                 {item.status === 'ativo' && (
-                                    <button onClick={() => setAluguelParaDevolver(item)} className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 font-bold flex items-center gap-2 shadow-sm" title="Finalizar e Verificar Atraso">
+                                    <button onClick={() => navigate(`/alugueis/devolver/${item.id}`)} className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 font-bold flex items-center gap-2 shadow-sm" title="Finalizar e Verificar Atraso">
                                         <CornerDownLeft size={18}/> Devolver
                                     </button>
                                 )}
@@ -128,11 +113,6 @@ export default function Alugueis() {
                 ))}
             </div>
         )}
-
-        {modalNovoAberto && <ModalNovoAluguel aluguelParaEditar={aluguelParaEditar} onClose={() => { setModalNovoAberto(false); setAluguelParaEditar(null); }} onSave={buscarAlugueis} />}
-        {aluguelParaEntregar && <ModalEntrega aluguel={aluguelParaEntregar} onClose={() => setAluguelParaEntregar(null)} onSave={buscarAlugueis} />}
-        {aluguelParaDevolver && <ModalDevolucao aluguel={aluguelParaDevolver} onClose={() => setAluguelParaDevolver(null)} onSave={buscarAlugueis} />}
-
       </main>
     </div>
   )
