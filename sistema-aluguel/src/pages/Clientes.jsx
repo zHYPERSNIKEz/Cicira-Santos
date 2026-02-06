@@ -2,12 +2,12 @@ import { useState, useEffect } from 'react'
 import Sidebar from '../components/Sidebar'
 import { supabase } from '../supabase'
 import { Plus, Search, Trash2, Edit, User, Menu, Phone } from 'lucide-react'
-import ModalNovoCliente from '../components/ModalNovoCliente'
+
 
 export default function Clientes() {
   const [clientes, setClientes] = useState([])
   const [loading, setLoading] = useState(true)
-  const [modalAberto, setModalAberto] = useState(false)
+
   const [termoBusca, setTermoBusca] = useState('')
   const [menuAberto, setMenuAberto] = useState(false)
 
@@ -60,7 +60,7 @@ export default function Clientes() {
             <p className="text-gray-500">Gerencie sua base de contatos</p>
           </div>
           <button 
-            onClick={() => setModalAberto(true)}
+
             className="w-full md:w-auto bg-green-600 text-white px-4 py-2 rounded-lg flex items-center justify-center gap-2 hover:bg-green-700 transition-colors shadow-lg shadow-green-900/20"
           >
             <Plus size={20} />
@@ -130,12 +130,7 @@ export default function Clientes() {
           </div>
         </div>
 
-        {modalAberto && (
-          <ModalNovoCliente
-            onClose={() => setModalAberto(false)} 
-            onSave={buscarClientes} 
-          />
-        )}
+
 
       </main>
     </div>

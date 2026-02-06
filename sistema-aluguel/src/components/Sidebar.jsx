@@ -81,7 +81,7 @@ export default function Sidebar({ isOpen, onClose }) {
 
           {/* Versão do Sistema */}
           <div className="text-center">
-            <p className="text-xs text-slate-600 font-mono">v1.1.0</p>
+            <p className="text-xs text-slate-600 font-mono">v1.2.0</p>
           </div>
         </div>
       </aside>
