@@ -25,7 +25,10 @@ export function useAluguelForm() {
 
   // DADOS GERAIS
   const [datas, setDatas] = useState({ retirada: new Date().toISOString().split('T')[0], devolucao: '' })
+  
+  // AQUI: O padrão começa como 'Pix' para evitar envio vazio
   const [pagamento, setPagamento] = useState({ entrada: '', metodo: 'Pix' })
+  
   const [anotacoes, setAnotacoes] = useState('')
   const [statusAluguel, setStatusAluguel] = useState('pendente')
 
@@ -43,7 +46,13 @@ export function useAluguelForm() {
             setModoNovoCliente(false)
         }
         setDatas({ retirada: aluguel.data_retirada, devolucao: aluguel.data_devolucao })
-        setPagamento({ entrada: aluguel.valor_entrada, metodo: aluguel.metodo_pagamento })
+        
+        // CORREÇÃO: Lê a coluna 'forma_pagamento' do banco
+        setPagamento({ 
+            entrada: aluguel.valor_entrada, 
+            metodo: aluguel.forma_pagamento || 'Pix' 
+        })
+        
         setAnotacoes(aluguel.anotacoes || ''); setStatusAluguel(aluguel.status)
 
         const { data: itens } = await supabase.from('itens_aluguel').select('*, produtos(*)').eq('aluguel_id', id)
@@ -79,46 +88,30 @@ export function useAluguelForm() {
   const handleBuscaCPF = (valor) => { 
     const v = valor.replace(/\D/g, '').replace(/(\d{3})(\d)/, '$1.$2').replace(/(\d{3})(\d)/, '$1.$2').replace(/(\d{3})(\d{1,2})/, '$1-$2').replace(/(-\d{2})\d+?$/, '$1')
     setTermoBusca(v)
-    // Marca visualmente se é inválido, mas NÃO impede a busca mais
     if (v.length === 14) setCpfInvalido(!validarCPF(v)); else setCpfInvalido(false)
   }
   
   const handleTelefone = (v) => { let tel = v.replace(/\D/g, "").replace(/^(\d\d)(\d)/g, "($1) $2").replace(/(\d{5})(\d)/, "$1-$2"); if (tel.length <= 15) setDadosCliente({ ...dadosCliente, telefone: tel }) }
 
-  // --- 2. BUSCA DE CLIENTE (CORRIGIDA) ---
+  // --- 2. BUSCA DE CLIENTE ---
   useEffect(() => {
-    // Se digitou menos de 3 números ou está criando novo, não busca
     if (modoNovoCliente || termoBusca.length < 3) { setClienteEncontradoNaBusca(null); return }
     
     const delay = setTimeout(async () => {
-      // Limpa para buscar só números no banco (caso o banco tenha salvo sem pontos)
       const cpfLimpo = termoBusca.replace(/\D/g, '')
-      
-      const { data } = await supabase
-        .from('clientes')
-        .select('*')
-        .or(`cpf.eq.${termoBusca},cpf.eq.${cpfLimpo}`) // Tenta achar com ou sem pontos
-        .maybeSingle()
-      
+      const { data } = await supabase.from('clientes').select('*').or(`cpf.eq.${termoBusca},cpf.eq.${cpfLimpo}`).maybeSingle()
       setClienteEncontradoNaBusca(data || null)
     }, 300); 
     return () => clearTimeout(delay)
-  }, [termoBusca, modoNovoCliente]) // Removido 'cpfInvalido' daqui para não travar a busca
+  }, [termoBusca, modoNovoCliente])
 
-  // --- 3. BUSCA DE PRODUTO (INTELIGENTE) ---
+  // --- 3. BUSCA DE PRODUTO ---
   useEffect(() => {
     if (!termoProduto) { setProdutosEncontrados([]); return }
     const delay = setTimeout(async () => {
       const termo = termoProduto.trim()
       let query = supabase.from('produtos').select('*').limit(10)
-
-      // Se for só número, busca por Código. Se for letra, busca por Nome.
-      if (/^\d+$/.test(termo)) {
-         query = query.eq('codigo', parseInt(termo))
-      } else {
-         query = query.ilike('nome', `%${termo}%`)
-      }
-
+      if (/^\d+$/.test(termo)) { query = query.eq('codigo', parseInt(termo)) } else { query = query.ilike('nome', `%${termo}%`) }
       const { data } = await query
       setProdutosEncontrados(data || [])
     }, 300); return () => clearTimeout(delay)
@@ -144,33 +137,50 @@ export function useAluguelForm() {
     setProdutoManual({ nome: '', preco: '' }); setModoProdutoManual(false)
   }
 
+  // --- SALVAMENTO FINAL ---
   const finalizarAluguel = async () => {
-    // Validação flexível no salvamento
     if (dadosCliente.cpf && !validarCPF(dadosCliente.cpf)) { 
-       // Se quiser travar CPF inválido, descomente: alert("CPF Inválido"); return 
+       // Opcional: alert("CPF Inválido"); return 
     }
     if (!dadosCliente.nome || !carrinho.length || !datas.devolucao) { alert('Preencha obrigatórios'); return }
     setLoading(true)
 
+    // 1. Salva/Atualiza Cliente
     let cid = dadosCliente.id
     const cPayload = { nome: dadosCliente.nome, cpf: dadosCliente.cpf, telefone: dadosCliente.telefone, rua: dadosCliente.rua, numero: dadosCliente.numero, bairro: dadosCliente.bairro, cidade: dadosCliente.cidade, endereco: `${dadosCliente.rua}, ${dadosCliente.numero}` }
     
     if (!cid) { const { data } = await supabase.from('clientes').insert([cPayload]).select().single(); cid = data.id }
     else { await supabase.from('clientes').update(cPayload).eq('id', cid) }
 
+    // 2. Salva Itens Manuais (se houver)
     const itensFinais = []
     for (const item of carrinho) {
         if (item.isNovo) { const { data } = await supabase.from('produtos').insert([{ nome: item.nome, preco_aluguel: item.preco_aluguel, status: 'disponivel', codigo: 0 }]).select().single(); itensFinais.push(data) }
         else itensFinais.push(item)
     }
 
-    const aluguelPayload = { cliente_id: cid, data_retirada: datas.retirada, data_devolucao: datas.devolucao, valor_total: total, valor_entrada: parseFloat(pagamento.entrada||0), metodo_pagamento: pagamento.metodo, anotacoes, status: modoEdicao ? statusAluguel : 'pendente' }
+    // 3. Monta Payload do Aluguel
+    const aluguelPayload = { 
+        cliente_id: cid, 
+        data_retirada: datas.retirada, 
+        data_devolucao: datas.devolucao, 
+        valor_total: total, 
+        valor_entrada: parseFloat(pagamento.entrada||0), 
+        
+        // CORREÇÃO CRÍTICA: Usa 'forma_pagamento' (igual ao banco)
+        forma_pagamento: pagamento.metodo, 
+        
+        anotacoes, 
+        status: modoEdicao ? statusAluguel : 'pendente' 
+    }
     
+    // 4. Salva Aluguel e Itens
     let aid = id
     if (id) { await supabase.from('alugueis').update(aluguelPayload).eq('id', id); await supabase.from('itens_aluguel').delete().eq('aluguel_id', id) }
     else { const { data } = await supabase.from('alugueis').insert([aluguelPayload]).select().single(); aid = data.id }
 
     await supabase.from('itens_aluguel').insert(itensFinais.map(p => ({ aluguel_id: aid, produto_id: p.id, preco_na_epoca: p.preco_aluguel })))
+    
     setLoading(false); navigate('/alugueis')
   }
 

@@ -2,8 +2,9 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { supabase } from '../../supabase'
 import Sidebar from '../../components/Sidebar'
-import ModalConfirmacao from '../../components/ModalConfirmacao' // <--- Importamos aqui
-import { Plus, Search, Trash2, Calendar, Edit, Menu, PackageCheck, CornerDownLeft } from 'lucide-react'
+import ModalConfirmacao from '../../components/ModalConfirmacao'
+// ADICIONEI O 'Lock' AQUI NOS IMPORTS
+import { Plus, Search, Trash2, Calendar, Edit, Menu, PackageCheck, CornerDownLeft, Lock } from 'lucide-react'
 
 export default function Lista() {
   const navigate = useNavigate()
@@ -12,7 +13,6 @@ export default function Lista() {
   const [termoBusca, setTermoBusca] = useState('')
   const [menuAberto, setMenuAberto] = useState(false)
   
-  // Estado para controlar o Modal de Exclusão
   const [idParaExcluir, setIdParaExcluir] = useState(null)
 
   async function buscarAlugueis() {
@@ -25,13 +25,12 @@ export default function Lista() {
 
   useEffect(() => { buscarAlugueis() }, [])
 
-  // Função que realmente vai no banco apagar (chamada pelo Modal)
   async function confirmarExclusao() {
     if (!idParaExcluir) return
     const { error } = await supabase.from('alugueis').delete().eq('id', idParaExcluir)
     if (error) alert('Erro: ' + error.message)
     else buscarAlugueis()
-    setIdParaExcluir(null) // Limpa o estado
+    setIdParaExcluir(null)
   }
 
   const formatarDinheiro = (val) => new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(val)
@@ -51,7 +50,6 @@ export default function Lista() {
     <div className="bg-gray-50 min-h-screen">
       <Sidebar isOpen={menuAberto} onClose={() => setMenuAberto(false)} />
       
-      {/* O MODAL FICA AQUI, INVISÍVEL ATÉ SER CHAMADO */}
       <ModalConfirmacao 
         isOpen={!!idParaExcluir} 
         onClose={() => setIdParaExcluir(null)}
@@ -89,10 +87,28 @@ export default function Lista() {
                                 <div className="text-xl font-bold text-gray-800">{formatarDinheiro(item.valor_total)}</div>
                                 {item.status === 'pendente' && (item.valor_total - item.valor_entrada > 0) && <div className="text-xs text-red-500 font-bold bg-red-50 px-2 py-0.5 rounded-full inline-block">Falta: {formatarDinheiro(item.valor_total - item.valor_entrada)}</div>}
                             </div>
+                            
                             <div className="flex gap-2 w-full md:w-auto">
-                                <button onClick={() => navigate(`/alugueis/editar/${item.id}`)} className="flex-1 md:flex-none p-2 bg-white text-blue-600 rounded-lg hover:bg-blue-50 border border-gray-200 hover:border-blue-200 transition-colors flex justify-center"><Edit size={18}/></button>
+                                {/* --- AQUI ESTÁ A MUDANÇA (Bloqueio de Edição) --- */}
+                                {(item.status === 'finalizado' || item.status === 'devolvido') ? (
+                                    <button 
+                                        disabled
+                                        className="flex-1 md:flex-none p-2 bg-gray-100 text-gray-400 rounded-lg border border-gray-200 cursor-not-allowed flex justify-center"
+                                        title="Aluguel Finalizado (Não pode editar)"
+                                    >
+                                        <Lock size={18}/>
+                                    </button>
+                                ) : (
+                                    <button 
+                                        onClick={() => navigate(`/alugueis/editar/${item.id}`)} 
+                                        className="flex-1 md:flex-none p-2 bg-white text-blue-600 rounded-lg hover:bg-blue-50 border border-gray-200 hover:border-blue-200 transition-colors flex justify-center"
+                                        title="Editar Aluguel"
+                                    >
+                                        <Edit size={18}/>
+                                    </button>
+                                )}
+                                {/* ------------------------------------------------ */}
                                 
-                                {/* BOTÃO DE EXCLUIR AGORA ABRE O MODAL */}
                                 <button onClick={() => setIdParaExcluir(item.id)} className="flex-1 md:flex-none p-2 bg-white text-red-500 rounded-lg hover:bg-red-50 border border-gray-200 hover:border-red-200 transition-colors flex justify-center"><Trash2 size={18}/></button>
                                 
                                 {item.status === 'pendente' && (
