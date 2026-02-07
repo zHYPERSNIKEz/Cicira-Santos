@@ -67,8 +67,8 @@ export default function Formulario() {
 
                                          {/* LINHA 2: TELEFONE (Pequeno) e RUA (Grande) - AGORA ALINHADOS E COM ÍCONE */}
                                          <div className="grid grid-cols-1 md:grid-cols-12 gap-3">
-                                             <div className="md:col-span-4"><label className="text-xs font-bold text-gray-500 flex gap-1 items-center"><Phone size={12}/> TELEFONE</label><input value={dadosCliente.telefone} onChange={e => handleTelefone(e.target.value)} className="w-full p-2 border rounded-lg bg-white" placeholder="(00) 00000-0000"/></div>
-                                             <div className="md:col-span-8"><label className="text-xs font-bold text-gray-500 flex gap-1 items-center"><MapPin size={12}/> RUA</label><input value={dadosCliente.rua} onChange={e => setDadosCliente({...dadosCliente, rua: e.target.value})} className="w-full p-2 border rounded-lg bg-white" placeholder="Rua / Avenida"/></div>
+                                              <div className="md:col-span-4"><label className="text-xs font-bold text-gray-500 flex gap-1 items-center"><Phone size={12}/> TELEFONE</label><input value={dadosCliente.telefone} onChange={e => handleTelefone(e.target.value)} className="w-full p-2 border rounded-lg bg-white" placeholder="(00) 00000-0000"/></div>
+                                              <div className="md:col-span-8"><label className="text-xs font-bold text-gray-500 flex gap-1 items-center"><MapPin size={12}/> RUA</label><input value={dadosCliente.rua} onChange={e => setDadosCliente({...dadosCliente, rua: e.target.value})} className="w-full p-2 border rounded-lg bg-white" placeholder="Rua / Avenida"/></div>
                                          </div>
                                          
                                          {/* LINHA 3: ENDEREÇO DETALHADO */}
@@ -84,7 +84,7 @@ export default function Formulario() {
                             {/* SEÇÃO 2: DATAS */}
                             <div className="flex flex-col md:flex-row gap-4">
                                 <div className="flex-1"><label className="text-xs font-bold text-blue-600 mb-1 flex items-center gap-1"><Calendar size={12}/> Retirada</label><input type="date" className="w-full p-3 border rounded-lg font-medium" value={datas.retirada} onChange={handleMudancaRetirada}/></div>
-                                <div className="flex-1"><label className="text-xs font-bold text-blue-600 mb-1 flex items-center gap-1"><Calendar size={12}/> Devolução</label><input type="date" className="w-full p-3 border rounded-lg font-medium" value={datas.devolucao} onChange={e => setDatas({...prev, devolucao: e.target.value})}/></div>
+                                <div className="flex-1"><label className="text-xs font-bold text-blue-600 mb-1 flex items-center gap-1"><Calendar size={12}/> Devolução</label><input type="date" className="w-full p-3 border rounded-lg font-medium" value={datas.devolucao} onChange={e => setDatas({...datas, devolucao: e.target.value})}/></div>
                             </div>
 
                             {/* SEÇÃO 3: PRODUTOS */}
@@ -92,16 +92,16 @@ export default function Formulario() {
                                 <div className="flex justify-between items-center mb-2"><h4 className="font-bold text-gray-700">3. Roupas</h4><button onClick={() => setModoProdutoManual(!modoProdutoManual)} className="text-xs text-blue-600 font-bold bg-blue-50 px-2 py-1 rounded">Item Manual</button></div>
                                 {modoProdutoManual ? (
                                     <div className="flex flex-col md:flex-row gap-2 bg-orange-50 p-2 rounded-lg border border-orange-100">
-                                        <input placeholder="Nome" value={produtoManual.nome} onChange={e=>setProdutoManual({...produtoManual, nome:e.target.value})} className="border p-2 rounded flex-1"/>
-                                        <div className="flex gap-2">
-                                            <input placeholder="R$" type="number" value={produtoManual.preco} onChange={e=>setProdutoManual({...produtoManual, preco:e.target.value})} className="border p-2 rounded w-24"/>
-                                            <button onClick={adicionarProdutoManual} className="bg-orange-500 text-white px-3 rounded font-bold flex-1">OK</button>
-                                        </div>
+                                            <input placeholder="Nome" value={produtoManual.nome} onChange={e=>setProdutoManual({...produtoManual, nome:e.target.value})} className="border p-2 rounded flex-1"/>
+                                            <div className="flex gap-2">
+                                                <input placeholder="R$" type="number" value={produtoManual.preco} onChange={e=>setProdutoManual({...produtoManual, preco:e.target.value})} className="border p-2 rounded w-24"/>
+                                                <button onClick={adicionarProdutoManual} className="bg-orange-500 text-white px-3 rounded font-bold flex-1">OK</button>
+                                            </div>
                                     </div>
                                 ) : (
                                     <div className="relative">
-                                        <input placeholder="🔍 Buscar Roupa..." className="w-full p-3 border rounded-lg outline-none focus:border-blue-500" value={termoProduto} onChange={e=>setTermoProduto(e.target.value)}/>
-                                        {produtosEncontrados.length > 0 && <div className="absolute w-full bg-white shadow-xl border mt-1 max-h-48 overflow-auto z-10 rounded-lg">{produtosEncontrados.map(p => <div key={p.id} onClick={()=>verificarDisponibilidadeEAdicionar(p)} className="p-3 hover:bg-gray-100 cursor-pointer border-b flex justify-between"><span>{p.nome}</span> <span className="font-bold text-green-600">R$ {p.preco_aluguel}</span></div>)}</div>}
+                                            <input placeholder="🔍 Buscar Roupa..." className="w-full p-3 border rounded-lg outline-none focus:border-blue-500" value={termoProduto} onChange={e=>setTermoProduto(e.target.value)}/>
+                                            {produtosEncontrados.length > 0 && <div className="absolute w-full bg-white shadow-xl border mt-1 max-h-48 overflow-auto z-10 rounded-lg">{produtosEncontrados.map(p => <div key={p.id} onClick={()=>verificarDisponibilidadeEAdicionar(p)} className="p-3 hover:bg-gray-100 cursor-pointer border-b flex justify-between"><span>{p.nome}</span> <span className="font-bold text-green-600">R$ {p.preco_aluguel}</span></div>)}</div>}
                                     </div>
                                 )}
                                 <div className="mt-3 space-y-2">{carrinho.map(item => <div key={item.id} className="flex justify-between items-center bg-gray-50 p-3 rounded-lg border border-gray-200"><span className="font-medium text-gray-700">{item.nome}</span><div className="flex items-center gap-3"><span className="font-bold text-gray-800">R$ {item.preco_aluguel}</span><button onClick={()=>setCarrinho(carrinho.filter(i=>i.id!==item.id))} className="text-red-500 p-1 hover:bg-red-50 rounded"><Trash2 size={16}/></button></div></div>)}</div>
@@ -115,7 +115,20 @@ export default function Formulario() {
                                 <div className="flex justify-between font-bold text-xl mb-3 text-slate-800"><span>Total:</span><span>R$ {total.toFixed(2)}</span></div>
                                 <div className="flex flex-col md:flex-row gap-3">
                                     <div className="flex-1"><label className="text-xs font-bold text-gray-500">ENTRADA (R$)</label><input type="number" className="w-full p-2 border rounded-lg" value={pagamento.entrada} onChange={e=>setPagamento({...pagamento, entrada:e.target.value})}/></div>
-                                    <div className="flex-1"><label className="text-xs font-bold text-gray-500">MÉTODO</label><select className="w-full p-2 border rounded-lg bg-white" value={pagamento.metodo} onChange={e=>setPagamento({...pagamento, metodo:e.target.value})}><option>Pix</option><option>Dinheiro</option><option>Cartão</option></select></div>
+                                    <div className="flex-1">
+                                      <label className="text-xs font-bold text-gray-500 uppercase">Método da Entrada</label>
+                                      <select 
+                                          className="w-full p-2 border rounded-lg bg-white"
+                                          value={pagamento.metodo} 
+                                          onChange={e => setPagamento({...pagamento, metodo: e.target.value})}
+                                      >
+                                          {/* Agora as opções são idênticas ao banco de dados e à tela de entrega */}
+                                          <option value="Pix">💠 Pix</option>
+                                          <option value="Dinheiro">💵 Dinheiro</option>
+                                          <option value="Cartão Crédito">💳 Cartão de Crédito</option>
+                                          <option value="Cartão Débito">💳 Cartão de Débito</option>
+                                      </select>
+                                    </div>
                                 </div>
                                 <div className="text-right text-red-600 font-bold mt-2">Falta: R$ {valorRestante.toFixed(2)}</div>
                             </div>

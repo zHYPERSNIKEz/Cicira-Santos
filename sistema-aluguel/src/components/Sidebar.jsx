@@ -1,6 +1,6 @@
 import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { supabase } from '../supabase'
-import { LayoutDashboard, ShoppingBag, Users, Shirt, LogOut, X } from 'lucide-react'
+import { LayoutDashboard, ShoppingBag, Users, Shirt, LogOut, X, DollarSign  } from 'lucide-react'
 
 export default function Sidebar({ isOpen, onClose }) {
   const navigate = useNavigate()
@@ -16,6 +16,7 @@ export default function Sidebar({ isOpen, onClose }) {
     { name: 'Aluguéis', icon: ShoppingBag, path: '/alugueis' },
     { name: 'Clientes', icon: Users, path: '/clientes' },
     { name: 'Estoque', icon: Shirt, path: '/estoque' },
+    { name: 'Financeiro', icon: DollarSign, path: '/financeiro' }
   ]
 
   return (
