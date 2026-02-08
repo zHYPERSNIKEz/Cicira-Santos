@@ -1,12 +1,11 @@
 import { useState, useEffect } from 'react'
 import { supabase } from '../supabase'
 import Sidebar from '../components/Sidebar'
-import { Users, ShoppingBag, AlertTriangle, Calendar, Activity } from 'lucide-react'
+import { Users, ShoppingBag, AlertTriangle, Calendar, Activity, Menu } from 'lucide-react'
 
 export default function Dashboard() {
   const [menuAberto, setMenuAberto] = useState(false)
   const [loading, setLoading] = useState(true)
-  
   const [kpis, setKpis] = useState({
     totalAlugueisAtivos: 0,
     totalClientes: 0,
@@ -20,7 +19,6 @@ export default function Dashboard() {
 
   async function buscarDadosOperacionais() {
     setLoading(true)
-    // Busca apenas contagens, sem somar valores financeiros
     const { count: clientes } = await supabase.from('clientes').select('*', { count: 'exact', head: true })
     const { count: estoque } = await supabase.from('produtos').select('*', { count: 'exact', head: true })
     const { count: manutencao } = await supabase.from('produtos').select('*', { count: 'exact', head: true }).eq('status', 'manutencao')
@@ -40,8 +38,22 @@ export default function Dashboard() {
       <Sidebar isOpen={menuAberto} onClose={() => setMenuAberto(false)} />
       
       <main className="p-4 md:p-8 md:ml-64 transition-all">
-        {/* Header (Sem valores) */}
-        <div className="mb-8">
+        
+        {/* --- CABEÇALHO MOBILE (CORRIGIDO: LIMPO IGUAL AOS OUTROS) --- */}
+        <div className="md:hidden flex items-center justify-between mb-6 sticky top-0 z-30 bg-gray-50 py-2">
+            <button 
+                onClick={() => setMenuAberto(true)} 
+                className="p-2 bg-white rounded shadow text-gray-700 active:scale-95 transition-transform"
+            >
+                <Menu size={24}/>
+            </button>
+            <span className="font-bold text-gray-700">Visão Geral</span>
+            <div className="w-8"></div>
+        </div>
+        {/* ----------------------------------------------------------- */}
+
+        {/* Header Desktop */}
+        <div className="mb-8 hidden md:block">
             <h2 className="text-2xl font-bold text-gray-800">Painel de Controle 🚀</h2>
             <p className="text-gray-500">Visão geral operacional da loja.</p>
         </div>
@@ -54,7 +66,7 @@ export default function Dashboard() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 
                 {/* CARD 1: ALUGUÉIS ATIVOS */}
-                <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex items-center justify-between">
+                <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex items-center justify-between hover:border-blue-200 transition-colors">
                     <div>
                         <p className="text-sm font-bold text-gray-400 uppercase">Aluguéis Ativos</p>
                         <h3 className="text-3xl font-bold text-blue-600 mt-1">{kpis.totalAlugueisAtivos}</h3>
@@ -64,7 +76,7 @@ export default function Dashboard() {
                 </div>
 
                 {/* CARD 2: ESTOQUE TOTAL */}
-                <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex items-center justify-between">
+                <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex items-center justify-between hover:border-indigo-200 transition-colors">
                     <div>
                         <p className="text-sm font-bold text-gray-400 uppercase">Total de Peças</p>
                         <h3 className="text-3xl font-bold text-gray-800 mt-1">{kpis.totalEstoque}</h3>
@@ -73,7 +85,7 @@ export default function Dashboard() {
                 </div>
 
                 {/* CARD 3: CLIENTES */}
-                <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex items-center justify-between">
+                <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex items-center justify-between hover:border-purple-200 transition-colors">
                     <div>
                         <p className="text-sm font-bold text-gray-400 uppercase">Clientes</p>
                         <h3 className="text-3xl font-bold text-gray-800 mt-1">{kpis.totalClientes}</h3>
@@ -82,7 +94,7 @@ export default function Dashboard() {
                 </div>
 
                 {/* CARD 4: MANUTENÇÃO */}
-                <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex items-center justify-between">
+                <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex items-center justify-between hover:border-red-200 transition-colors">
                     <div>
                         <p className="text-sm font-bold text-gray-400 uppercase">Em Manutenção</p>
                         <h3 className="text-3xl font-bold text-red-600 mt-1">{kpis.totalManutencao}</h3>
@@ -93,12 +105,12 @@ export default function Dashboard() {
         )}
         
         {/* Aviso de Privacidade */}
-        <div className="mt-8 p-4 bg-yellow-50 border border-yellow-100 rounded-lg flex gap-3">
-            <Activity className="text-yellow-600" />
+        <div className="mt-8 p-4 bg-yellow-50 border border-yellow-100 rounded-lg flex gap-3 items-start">
+            <Activity className="text-yellow-600 shrink-0 mt-1" />
             <div>
                 <h4 className="font-bold text-yellow-700">Onde estão os valores?</h4>
                 <p className="text-sm text-yellow-800">
-                    Para ver o faturamento, caixa e relatórios financeiros, acesse o novo menu <strong>Financeiro</strong> na barra lateral.
+                    Para ver o faturamento, caixa e relatórios financeiros completos, acesse o novo menu <strong>Financeiro</strong> na barra lateral.
                 </p>
             </div>
         </div>
