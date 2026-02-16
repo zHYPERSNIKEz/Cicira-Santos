@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { supabase } from '../supabase'
 import Sidebar from '../components/Sidebar'
+import HeaderMobile from '../components/HeaderMobile'
 import { Search, DollarSign, PieChart, Menu, Calendar, TrendingUp, Wallet } from 'lucide-react'
 
 export default function Financeiro() {
@@ -140,10 +141,10 @@ export default function Financeiro() {
 
       <main className="p-4 md:p-8 md:ml-64 transition-all">
         {/* Header Mobile */}
-        <div className="md:hidden flex items-center justify-between mb-6">
-            <button onClick={() => setMenuAberto(true)} className="p-2 bg-white rounded shadow text-gray-700"><Menu size={24}/></button>
-            <span className="font-bold text-gray-700">Financeiro</span><div className="w-8"></div>
-        </div>
+        <HeaderMobile 
+            titulo="Financeiro" 
+            aoAbrir={() => setMenuAberto(true)} 
+        />
 
         <header className="mb-8">
             <h2 className="text-2xl font-bold text-gray-800 flex items-center gap-2">

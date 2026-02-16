@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { supabase } from '../supabase'
 import Sidebar from '../components/Sidebar'
+import HeaderMobile from '../components/HeaderMobile'
 import { Users, ShoppingBag, AlertTriangle, Calendar, Activity, Menu } from 'lucide-react'
 
 export default function Dashboard() {
@@ -40,16 +41,7 @@ export default function Dashboard() {
       <main className="p-4 md:p-8 md:ml-64 transition-all">
         
         {/* --- CABEÇALHO MOBILE (CORRIGIDO: LIMPO IGUAL AOS OUTROS) --- */}
-        <div className="md:hidden flex items-center justify-between mb-6 sticky top-0 z-30 bg-gray-50 py-2">
-            <button 
-                onClick={() => setMenuAberto(true)} 
-                className="p-2 bg-white rounded shadow text-gray-700 active:scale-95 transition-transform"
-            >
-                <Menu size={24}/>
-            </button>
-            <span className="font-bold text-gray-700">Visão Geral</span>
-            <div className="w-8"></div>
-        </div>
+        <HeaderMobile titulo="Visão Geral" aoAbrir={() => setMenuAberto(true)} />
         {/* ----------------------------------------------------------- */}
 
         {/* Header Desktop */}

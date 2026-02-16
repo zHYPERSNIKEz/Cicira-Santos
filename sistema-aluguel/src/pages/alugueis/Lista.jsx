@@ -3,8 +3,8 @@ import { useNavigate } from 'react-router-dom'
 import { supabase } from '../../supabase'
 import Sidebar from '../../components/Sidebar'
 import ModalConfirmacao from '../../components/ModalConfirmacao'
-// ADICIONEI O 'Lock' AQUI NOS IMPORTS
-import { Plus, Search, Trash2, Calendar, Edit, Menu, PackageCheck, CornerDownLeft, Lock } from 'lucide-react'
+import HeaderMobile from '../../components/HeaderMobile' // <--- IMPORTANTE
+import { Plus, Search, Trash2, Calendar, Edit, PackageCheck, CornerDownLeft, Lock } from 'lucide-react'
 
 export default function Lista() {
   const navigate = useNavigate()
@@ -34,14 +34,20 @@ export default function Lista() {
   }
 
   const formatarDinheiro = (val) => new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(val)
-  const formatarData = (d) => new Date(d).toLocaleDateString('pt-BR')
+  const formatarData = (d) => {
+    if (!d) return '-'
+    // Corrige fuso horário adicionando 'T12:00:00' para garantir que não volte 1 dia
+    const dataObj = new Date(d + 'T12:00:00') 
+    return dataObj.toLocaleDateString('pt-BR')
+  }
+  
   const alugueisFiltrados = alugueis.filter(item => item.clientes?.nome?.toLowerCase().includes(termoBusca.toLowerCase()))
 
   const renderStatus = (status) => {
     switch(status) {
         case 'pendente': return <span className="px-2 py-0.5 rounded text-xs font-bold uppercase bg-yellow-100 text-yellow-700 border border-yellow-200">Reservado</span>
         case 'ativo': return <span className="px-2 py-0.5 rounded text-xs font-bold uppercase bg-blue-100 text-blue-700 border border-blue-200">Com o Cliente</span>
-        case 'finalizado': return <span className="px-2 py-0.5 rounded text-xs font-bold uppercase bg-green-100 text-green-700 border border-green-200">Devolvido</span>
+        case 'finalizado': case 'devolvido': return <span className="px-2 py-0.5 rounded text-xs font-bold uppercase bg-green-100 text-green-700 border border-green-200">Devolvido</span>
         default: return null
     }
   }
@@ -59,13 +65,13 @@ export default function Lista() {
       />
 
       <main className="p-4 md:p-8 md:ml-64 transition-all">
-        <div className="md:hidden flex justify-between mb-6 sticky top-0 z-30 bg-gray-50/90 backdrop-blur-sm py-2 rounded-b-lg px-2">
-            <button onClick={() => setMenuAberto(true)}><Menu size={24} className="text-gray-700"/></button>
-            <span className="font-bold text-gray-700">Aluguel Sys</span><div className="w-8"></div>
-        </div>
+        
+        {/* --- AQUI ESTÁ A MUDANÇA (Header Mobile Padronizado) --- */}
+        <HeaderMobile titulo="Aluguéis" aoAbrir={() => setMenuAberto(true)} />
+        {/* -------------------------------------------------------- */}
 
         <header className="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
-          <div><h2 className="text-2xl font-bold text-gray-800">Aluguéis</h2><p className="text-gray-500">Gestão de Reservas</p></div>
+          <div><h2 className="text-2xl font-bold text-gray-800">Gestão de Reservas</h2><p className="text-gray-500">Controle total dos contratos</p></div>
           <button onClick={() => navigate('/alugueis/novo')} className="w-full md:w-auto bg-blue-600 text-white px-4 py-3 rounded-lg flex items-center justify-center gap-2 hover:bg-blue-700 shadow-lg font-bold transition-transform active:scale-95"><Plus size={20} /> Novo Aluguel</button>
         </header>
 
@@ -89,12 +95,12 @@ export default function Lista() {
                             </div>
                             
                             <div className="flex gap-2 w-full md:w-auto">
-                                {/* --- AQUI ESTÁ A MUDANÇA (Bloqueio de Edição) --- */}
+                                {/* Bloqueio de Edição se finalizado */}
                                 {(item.status === 'finalizado' || item.status === 'devolvido') ? (
                                     <button 
                                         disabled
                                         className="flex-1 md:flex-none p-2 bg-gray-100 text-gray-400 rounded-lg border border-gray-200 cursor-not-allowed flex justify-center"
-                                        title="Aluguel Finalizado (Não pode editar)"
+                                        title="Aluguel Finalizado"
                                     >
                                         <Lock size={18}/>
                                     </button>
@@ -102,12 +108,11 @@ export default function Lista() {
                                     <button 
                                         onClick={() => navigate(`/alugueis/editar/${item.id}`)} 
                                         className="flex-1 md:flex-none p-2 bg-white text-blue-600 rounded-lg hover:bg-blue-50 border border-gray-200 hover:border-blue-200 transition-colors flex justify-center"
-                                        title="Editar Aluguel"
+                                        title="Editar"
                                     >
                                         <Edit size={18}/>
                                     </button>
                                 )}
-                                {/* ------------------------------------------------ */}
                                 
                                 <button onClick={() => setIdParaExcluir(item.id)} className="flex-1 md:flex-none p-2 bg-white text-red-500 rounded-lg hover:bg-red-50 border border-gray-200 hover:border-red-200 transition-colors flex justify-center"><Trash2 size={18}/></button>
                                 
