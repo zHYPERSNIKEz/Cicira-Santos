@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Login from './pages/Login'
 import Dashboard from './pages/Dashboard'
 import Financeiro from './pages/Financeiro'
+import Perfil from './pages/Perfil'
 
 // Módulo Clientes (Adicionei o Formulário aqui)
 import Clientes from './pages/Clientes'
@@ -27,6 +28,7 @@ function App() {
         <Route path="/" element={<Login />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/financeiro" element={<Financeiro />} />
+        <Route path='/perfil' element={<Perfil />} />
         
         {/* Rotas de Clientes (Novas) */}
         <Route path="/clientes" element={<Clientes />} />

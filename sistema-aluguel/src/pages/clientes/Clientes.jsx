@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { supabase } from '../supabase'
 import Sidebar from '../components/Sidebar'
+import HeaderMobile from '../../components/HeaderMobile'
 import { Plus, Search, Edit, Trash2, Menu, AlertCircle } from 'lucide-react'
 
 export default function Clientes() {
@@ -121,10 +122,7 @@ export default function Clientes() {
 
       <main className="p-4 md:p-8 md:ml-64 transition-all">
         {/* Header Mobile */}
-        <div className="md:hidden flex items-center justify-between mb-6 sticky top-0 z-20 bg-gray-50 py-2">
-            <button onClick={() => setMenuAberto(true)} className="p-2 bg-white rounded shadow text-gray-700"><Menu size={24}/></button>
-            <span className="font-bold text-gray-700">Clientes</span><div className="w-8"></div>
-        </div>
+        <HeaderMobile titulo="Clientes" aoAbrir={() => setMenuAberto(true)} />
 
         <header className="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
           <div>
